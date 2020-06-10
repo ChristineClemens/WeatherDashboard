@@ -1,8 +1,8 @@
 html {
-    background-image: url("./weather-sky.jpeg");
+    background-image: url("https://c0.wallpaperflare.com/preview/572/961/266/sky-dark-light-clouds.jpg");
     background-repeat: no-repeat;
     background-attachment: fixed;
-    background-position: bottom; 
+    background-size: cover; 
 }
 
 body {
@@ -78,13 +78,13 @@ img {
     transition: .5s;
 }
 
-#main-col-right {
+#currentWeatherBox {
     background-color: rgba(255, 255, 255, 0.589);
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;  
 }
 
-.city-div {
+.currentWeather {
     border: 1px solid rgba(112, 112, 112, 0.315);
     background-color: rgba(255, 255, 255, 0.295);
     margin: 15px;
@@ -96,7 +96,7 @@ img {
     line-height: 12px;
 }
 
-.city-div:hover {
+.currentWeather:hover {
     box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.377);
     transition: .2s;
     background-color: rgba(255, 255, 255, 0.596);

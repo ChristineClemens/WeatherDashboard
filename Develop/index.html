@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
     <title>|Weather Dashboard</title>
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+JP&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -32,12 +32,12 @@
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9" id="main-col-right">
-                <div class="city-div">
+                <div id="currentWeatherBox" class="currentWeather">
                     <p id="icon" class="icon"></p>
-                    <p id="city-title"></p>
+                    <p id="cityName"></p>
                     <p id="temperature"></p>
-                    <p id="wind-speed"></p>
-                    <p id="UV-index" class="badge"></p>
+                    <p id="windSpeed"></p>
+                    <p id="UVindex" class="badge"></p>
                 </div>
                 <div class="forecast-div">
                     <div class="forecast-box" id="box1">

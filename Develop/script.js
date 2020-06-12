@@ -44,14 +44,25 @@ function displayLocalWeather(data) {
 //Display UV Index        
 function displayUV(data) {
     console.log(data);
-    document.querySelector("#UVindex").innerHTML = `UV Index ${data.daily[0].uvi}`;
+    var humidityString = data.daily[0].uvi;
+    var humidityNumber = parseFloat(humidityString);
+    console.log(humidityNumber);
+    if (humidityNumber >= 7) {
+        document.querySelector("#UVindex").innerHTML = `<p class="badge badge-danger">UV Index ${humidityNumber}</p>`;
+    }
+    if (humidityNumber <= 3) {
+        document.querySelector("#UVindex").innerHTML = `<p class="badge badge-success">UV Index ${humidityNumber}</p>`;
+    }
+    if (humidityNumber > 3 && humidityNumber < 7) {
+        document.querySelector("#UVindex").innerHTML = `<p class="badge badge-warning">UV Index ${humidityNumber}</p>`;
+    }
 }
 
 //Display five-day forecast
 function fiveDayForecast(data) {
     for (i = 1; i <= 5; i++) {
         document.querySelector(`#date${i}`).innerHTML =
-        `<img src='https://openweathermap.org/img/wn/${data.daily[i].weather[0].icon}.png'> High: ${data.daily[i].temp.max.toFixed(1)} &deg;C Low: ${data.daily[i].temp.min.toFixed(1)} &deg;C ${data.daily[i].weather[0].description}`
+        `<img src='https://openweathermap.org/img/wn/${data.daily[i].weather[0].icon}.png'> ${moment(data.daily[i].dt,"X").format('L')} ${data.daily[i].temp.day.toFixed(1)} &deg;C ${data.daily[i].weather[0].description}`
     }
 }
 getLocation();

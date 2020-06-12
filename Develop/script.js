@@ -36,22 +36,22 @@ function fetchData(URL) {
 //Display local current weather in current weather box.
 function displayLocalWeather(data) {
     console.log(data);
-    document.querySelector("#icon").innerHTML = `<img src='https://openweathermap.org/img/wn/${data.weather[0].icon}.png'>`;
-    document.querySelector("#cityName").innerHTML = `${data.name}`;
-    document.querySelector("#temperature").innerHTML = `Current Temperature: ${data.main.temp}`;
-    document.querySelector("#windSpeed").innerHTML = `Wind Speed: ${data.wind.speed}`;
+    document.querySelector("#cityName").innerHTML = `${data.name} <img src='https://openweathermap.org/img/wn/${data.weather[0].icon}.png'>`;
+    document.querySelector("#humidity").innerHTML = `Humidity: ${data.main.humidity}%`
+    document.querySelector("#temperature").innerHTML = `Current Temperature: ${data.main.temp.toFixed(1)} &deg;C`;
+    document.querySelector("#windSpeed").innerHTML = `Wind Speed: ${data.wind.speed} km/h`;
 }
 //Display UV Index        
 function displayUV(data) {
     console.log(data);
-    document.querySelector("#UVindex").innerHTML = `${data.daily[0].uvi}`;
+    document.querySelector("#UVindex").innerHTML = `UV Index ${data.daily[0].uvi}`;
 }
 
 //Display five-day forecast
 function fiveDayForecast(data) {
     for (i = 1; i <= 5; i++) {
         document.querySelector(`#date${i}`).innerHTML =
-        `<img src='https://openweathermap.org/img/wn/${data.daily[i].weather[0].icon}.png'> High:`
+        `<img src='https://openweathermap.org/img/wn/${data.daily[i].weather[0].icon}.png'> High: ${data.daily[i].temp.max.toFixed(1)} &deg;C Low: ${data.daily[i].temp.min.toFixed(1)} &deg;C ${data.daily[i].weather[0].description}`
     }
 }
 getLocation();

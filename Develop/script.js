@@ -11,27 +11,30 @@ function getLocation() {
         var todayLocalURL = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${APIKey}`;
         var forecastLocalURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=current,minutely,hourly&units=metric&appid=${APIKey}`;
         
-        displayData(fetchData(todayLocalURL));
-        displayUV(fetchData(UVindex)); 
+        fetchData(todayLocalURL)
+            .then(data => passData(data, displayLocalWeather));
+        fetchData(UVindex)
+            .then(data => passData(data, displayUV));
+        fetchData(forecastLocalURL)
+            .then(data => passData(data, fiveDayForecast));
     }) 
 }
 
-//Fetch local current weather using geolocation.       
+//Fetch local current weather using geolocation. 
+function passData(data, receiveData) {
+    console.log(data);
+    receiveData(data);
+}      
 function fetchData(URL) {
-	var result;
-    fetch (URL, {
+    var promise = fetch (URL, {
         method: "GET",
     })
-    .then(response => response.json())
-    .then(data => result = data);
-    console.log(result);
-	return result;
+    .then (response => response.json())
+    return promise;
 }
-// var result = fetchData(URL);
-// displayData(result);
 
 //Display local current weather in current weather box.
-function displayData(data) {
+function displayLocalWeather(data) {
     console.log(data);
     document.querySelector("#icon").innerHTML = `<img src='https://openweathermap.org/img/wn/${data.weather[0].icon}.png'>`;
     document.querySelector("#cityName").innerHTML = `${data.name}`;
@@ -45,22 +48,13 @@ function displayUV(data) {
 }
 
 //Display five-day forecast
-for (i = 1; i <= 5; i++) {
-    document.querySelector(`#date${i}`).innerHTML =
-    `<img src='https://openweathermap.org/img/wn/${data.weather[0].icon}.png'> High: ${data.daily.}`
+function fiveDayForecast(data) {
+    for (i = 1; i <= 5; i++) {
+        document.querySelector(`#date${i}`).innerHTML =
+        `<img src='https://openweathermap.org/img/wn/${data.daily[i].weather[0].icon}.png'> High:`
+    }
 }
-
 getLocation();
-
-
-
-// function fetchData(URL) {
-//     fetch (URL, {
-//         method: "GET",
-//     })
-//     .then(response => response.json())
-//     .then(data => {displayData(data); displayUV(data);})
-// }
 
 //----------------------------------------------------------------------------------------------------
 

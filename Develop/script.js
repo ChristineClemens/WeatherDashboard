@@ -8,12 +8,12 @@ function getLocation() {
         var longitude = position.coords.longitude;
         console.log (longitude);
         var UVindex = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=current,minutely,hourly&units=metric&appid=${APIKey}`;
-        var todayLocalURL = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${APIKey}`
+        var todayLocalURL = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${APIKey}`;
         var forecastLocalURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=current,minutely,hourly&units=metric&appid=${APIKey}`;
-
+        
         displayData(fetchData(todayLocalURL));
-        displayUV(fetchData(UVindex));  
-    })
+        displayUV(fetchData(UVindex)); 
+    }) 
 }
 
 //Fetch local current weather using geolocation.       
@@ -24,6 +24,7 @@ function fetchData(URL) {
     })
     .then(response => response.json())
     .then(data => result = data);
+    console.log(result);
 	return result;
 }
 // var result = fetchData(URL);
@@ -39,8 +40,16 @@ function displayData(data) {
 }
 //Display UV Index        
 function displayUV(data) {
+    console.log(data);
     document.querySelector("#UVindex").innerHTML = `${data.daily[0].uvi}`;
 }
+
+//Display five-day forecast
+for (i = 1; i <= 5; i++) {
+    document.querySelector(`#date${i}`).innerHTML =
+    `<img src='https://openweathermap.org/img/wn/${data.weather[0].icon}.png'> High: ${data.daily.}`
+}
+
 getLocation();
 
 
@@ -54,11 +63,14 @@ getLocation();
 // }
 
 //----------------------------------------------------------------------------------------------------
-var searchCityURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIKey}`;
-
-var searchBtn = document.querySelector("#searchBtn");
-searchBtn.addEventListener("click", searchCity)
 
 function searchCity() {
+    var searchCityURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIKey}`;
     var city = document.querySelector("#cityInput").value;
+
+    var searchBtn = document.querySelector("#searchBtn");
+    searchBtn.addEventListener("click", searchCity);
+
+
 }
+

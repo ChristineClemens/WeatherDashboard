@@ -36,7 +36,7 @@ function fetchData(URL) {
 //Display local current weather in current weather box.
 function displayLocalWeather(data) {
     console.log(data);
-    document.querySelector("#cityName").innerHTML = `${data.name} <img src='https://openweathermap.org/img/wn/${data.weather[0].icon}.png'>`;
+    document.querySelector("#cityName").innerHTML = `${data.name} (${moment().format('L')}) <img src='https://openweathermap.org/img/wn/${data.weather[0].icon}.png'>`;
     document.querySelector("#humidity").innerHTML = `Humidity: ${data.main.humidity}%`
     document.querySelector("#temperature").innerHTML = `Current Temperature: ${data.main.temp.toFixed(1)} &deg;C`;
     document.querySelector("#windSpeed").innerHTML = `Wind Speed: ${data.wind.speed} km/h`;
@@ -62,7 +62,9 @@ function displayUV(data) {
 function fiveDayForecast(data) {
     for (i = 1; i <= 5; i++) {
         document.querySelector(`#date${i}`).innerHTML =
-        `<img src='https://openweathermap.org/img/wn/${data.daily[i].weather[0].icon}.png'> ${moment(data.daily[i].dt,"X").format('L')} ${data.daily[i].temp.day.toFixed(1)} &deg;C ${data.daily[i].weather[0].description}`
+        `<img src='https://openweathermap.org/img/wn/${data.daily[i].weather[0].icon}.png'>
+        <p style="font-weight:bold"> ${moment(data.daily[i].dt,"X").format('L')} </p> 
+        ${data.daily[i].temp.day.toFixed(1)} &deg;C <br> ${data.daily[i].humidity}% <br> ${data.daily[i].weather[0].description}`;
     }
 }
 getLocation();

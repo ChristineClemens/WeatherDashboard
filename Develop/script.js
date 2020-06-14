@@ -83,17 +83,18 @@ var APIKey = "2015c5f25f689dcf6dedba026011e032";
 //     searchBtn.addEventListener("click", searchCity);
 // }
 
-
+function getCity() {
     var searchBtn = document.querySelector("#searchBtn");
     var searchInput = document.querySelector("#cityInput").value.toLowerCase();
     console.log(searchInput);
-    var searchInputURL = `https://api.openweathermap.org/data/2.5/weather?q=${searchInput}&appid=${APIKey}&units=metric`;
-    searchBtn.addEventListener("click", fetchCityData);
+    var searchInputURL = `https://api.openweathermap.org/data/2.5/weather?q=${searchInput}&units=metric&appid=${APIKey}`;
+    searchBtn.addEventListener("click", getCity, saveCity, displaySavedCity);
 
     fetchCityData(searchInputURL)
         .then(data => passCityData(data, displayCityData));
     fetchCityData(searchInputURL)
         .then(data => passCityData(data, fiveDayCityForecast));
+}
 
 function passCityData(data, receiveData) {
         console.log(data);
@@ -101,11 +102,11 @@ function passCityData(data, receiveData) {
 }      
 
 function fetchCityData(URL) {
-    var promise = fetch (URL, {
+    var cityPromise = fetch (URL, {
         method: "GET",
     })
     .then (response => response.json())
-    return promise;
+    return cityPromise;
 }
 
 function displayCityData(data) {
@@ -125,31 +126,15 @@ function fiveDayCityForecast(data) {
     }
 }
 
-//----------------------------------------------------------------------------------------------------
-// //Local Storage jazz...
-// window.addEventListener("DOMContentLoaded", () => {
-//     const dataSaved = ui.getFromLS();
-//     ui.populateUI(dataSaved);
-//   });
+function saveCity() {
+    localStorage.setItem("city", json.stringify(data));
+}
 
-//     function clearUserInterface() {
-//       uiContainer.innerHTML = "";
-//     }
-  
-//     function saveToLocalStorage(data) {
-//       localStorage.setItem("city", JSON.stringify(data));
-//     }
-  
-//     function retrieveLocalStorage() {
-//       if (localStorage.getItem("city" == null)) {
-//         return this.defaultCity;
-//       } else {
-//         this.city = JSON.parse(localStorage.getItem("city"));
-//       }
-//       return this.city;
-//     }
-  
-//     function clearLocalStorage() {
-//       localStorage.clear();
-//     }
+function displaySavedCity() {
+    localStorage.getItem("city");
+    document.querySelector("#searchHistory") += localStorage.getItem("city").value;
+}
+
+//----------------------------------------------------------------------------------------------------
+
   

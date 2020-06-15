@@ -71,31 +71,25 @@ var APIKey = "2015c5f25f689dcf6dedba026011e032";
 
 //----------------------------------------------------------------------------------------------------
 
-// function searchCity() {
-//     var searchCityLocalURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIKey}`;
-//     var city = document.querySelector("#cityInput").value;
-//     var cityLatitude;
-//     var cityLongitude;
-//     var searchCityForecastURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${cityLatitude}&lon=${cityLongitude}&exclude=hourly,daily&appid=${APIKey}`;
-//     var searchCityUVindex = `https://api.openweathermap.org/data/2.5/onecall?lat=${cityLatitude}&lon=${cityLongitude}&exclude=hourly,daily&appid=${APIKey}`;
-
-//     var searchBtn = document.querySelector("#searchBtn");
-//     searchBtn.addEventListener("click", searchCity);
-// }
-
 function getCity() {
-    var searchBtn = document.querySelector("#searchBtn");
-    var searchInput = document.querySelector("#cityInput").value.toLowerCase();
+    var searchInput = document.querySelector("#cityInput").value;
     console.log(searchInput);
     var searchInputURL = `https://api.openweathermap.org/data/2.5/weather?q=${searchInput}&units=metric&appid=${APIKey}`;
-    searchBtn.addEventListener("click", getCity, saveCity, displaySavedCity);
-
+    
     fetchCityData(searchInputURL)
         .then(data => passCityData(data, displayCityData));
     fetchCityData(searchInputURL)
         .then(data => passCityData(data, fiveDayCityForecast));
 }
 
+const searchBtn = document.querySelector("#searchBtn");
+searchBtn.addEventListener("submit", e => {
+    e.preventDefault();
+    const searchInput = document.querySelector("#cityInput").value
+    getCity();
+});
+
+//Retrieve information about the searched city.
 function passCityData(data, receiveData) {
         console.log(data);
         receiveData(data);
@@ -109,6 +103,7 @@ function fetchCityData(URL) {
     return cityPromise;
 }
 
+//Display data using the appropriate API.
 function displayCityData(data) {
     console.log(data);
     document.querySelector("#cityName").innerHTML = `${searchInput} (${moment().format('L')}) <img src='https://openweathermap.org/img/wn/${data.weather[0].icon}.png'>`;
@@ -125,7 +120,7 @@ function fiveDayCityForecast(data) {
         ${data.daily[i].temp.day.toFixed(1)} &deg;C <br> ${data.daily[i].humidity}% <br> ${data.daily[i].weather[0].description}`;
     }
 }
-
+//Store search history to local storage and display previously searched cities.
 function saveCity() {
     localStorage.setItem("city", json.stringify(data));
 }
